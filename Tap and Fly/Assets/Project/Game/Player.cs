@@ -2,23 +2,45 @@
 using System.Collections;
 
 public class Player : MonoBehaviour {
-	private Vector3 position;
-	
-	public int speed = 5;
-	public int rotationSpeed = 1;
-	public float gravity = 1f;
-	
+    // References
+    public GameObject InputHandler;
+    public AudioSource FlapSound;
+    public AudioSource HitSound;
+    public AudioSource FallSound;
+    // Set
+    public float TapForce;
+    // Private
+    private InputHandler _inputHandler;
+    private Rigidbody2D _rigidbody;
+
+    public void Start()
+    {
+        _inputHandler = InputHandler.GetComponent<InputHandler>();
+        _rigidbody = GetComponent<Rigidbody2D>();
+    }
+
 	// Update is called once per frame
-	void Update () {
-		position = transform.position;
+	void Update ()
+    {
+        if (_inputHandler.SingleTouch.Began)
+        {
+            // Play Sound
+            FlapSound.Play();
+            // Apply Force
+            _rigidbody.velocity = new Vector2(0,0);
+            _rigidbody.AddForce(new Vector2(0, TapForce));
+        }
+    }
 
-		// Rotate
-		transform.Rotate(Vector3.forward * rotationSpeed);
+    // Physics
+    void FixedUpadte()
+    {
+    }
 
-		// Update Gravity 
-		gravity += 0.2f;
-		// Update Position
-		// position.y -= gravity * Time.deltaTime;
-		transform.position = position;
-	}
+    public void Die()
+    {
+        GetComponent<Rigidbody2D>().Sleep();
+        HitSound.Play();
+        FallSound.Play();
+    }
 }
