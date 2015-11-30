@@ -9,6 +9,7 @@ public class Player : MonoBehaviour {
     public AudioSource FallSound;
     // Set
     public float TapForce;
+	public float Speed;
     // Get
     [HideInInspector]
     public bool IsDead;
@@ -24,26 +25,36 @@ public class Player : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update ()
-    {
-        if (_inputHandler.SingleTouch.Began)
-        {
-            // Play Sound
-            FlapSound.Play();
-            // Apply Force
-            _rigidbody.velocity = new Vector2(0,0);
-            _rigidbody.AddForce(new Vector2(0, TapForce));
-        }
+	{
+		if (_inputHandler.SingleTouch.Began)
+		{
+			// Play Sound
+			FlapSound.Play();
+			// Reset Force y
+			_rigidbody.velocity = new Vector2(_rigidbody.velocity.x,0);
+			// Apply Force
+			_rigidbody.AddForce(new Vector2(0, TapForce));
+		}
     }
 
     // Physics
-    void FixedUpadte()
-    {
-        //Rotate Player
+	void FixedUpdate()
+	{	if(_rigidbody.IsAwake())
+		{	
+			// Rotate
+			_rigidbody.MoveRotation(_rigidbody.velocity.y * 6);
+			// Reset Force y
+			_rigidbody.velocity = new Vector2(0,_rigidbody.velocity.y);
+			// Fly
+			_rigidbody.AddForce(new Vector2(Speed, 0));
+		}
+				
     }
 
     public void Die()
     {
-        GetComponent<Rigidbody2D>().Sleep();
+		IsDead = true;
+		_rigidbody.Sleep();
         HitSound.Play();
         FallSound.Play();
     }
