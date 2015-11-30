@@ -4,6 +4,7 @@ using System.Collections;
 public class InputHandler : MonoBehaviour {
 
     public SingleTouch SingleTouch;
+    [HideInInspector]
     public bool DisableControls;
 
 	// Use this for initialization

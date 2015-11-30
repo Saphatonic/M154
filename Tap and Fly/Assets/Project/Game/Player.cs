@@ -9,6 +9,9 @@ public class Player : MonoBehaviour {
     public AudioSource FallSound;
     // Set
     public float TapForce;
+    // Get
+    [HideInInspector]
+    public bool IsDead;
     // Private
     private InputHandler _inputHandler;
     private Rigidbody2D _rigidbody;
@@ -35,6 +38,7 @@ public class Player : MonoBehaviour {
     // Physics
     void FixedUpadte()
     {
+        //Rotate Player
     }
 
     public void Die()

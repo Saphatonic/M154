@@ -6,8 +6,6 @@ public class LogicHandler : MonoBehaviour {
     public GameObject GroundCollider;
     public GameObject InputHandler;
     public GameObject Player;
-
-    private bool _isDead;
     private bool _end;
 
 	// Use this for initialization
@@ -17,7 +15,6 @@ public class LogicHandler : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        CheckColliders();
 
         if (_end)
         {
@@ -25,22 +22,13 @@ public class LogicHandler : MonoBehaviour {
             return;
         }
 
-        if (_isDead)
+        if (Player.GetComponent<Player>().IsDead)
         {
-            Player.GetComponent<Player>().Die();
             InputHandler.GetComponent<InputHandler>().DisableControls = true;
             _end = true;
             return;
         }
 	}
-
-    private void CheckColliders()
-    {
-        if (GroundCollider.GetComponent<DeathCollider>().IsDead)
-        {
-            _isDead = true;
-        }
-    }
 
     private void EndGame()
     {
