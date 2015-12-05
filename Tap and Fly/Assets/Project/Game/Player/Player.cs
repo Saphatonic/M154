@@ -3,7 +3,9 @@ using System.Collections;
 
 public class Player : MonoBehaviour {
     // References
-    public GameObject InputHandler;
+    public MenuManager MenuManager;
+    public Menu Endscreen;
+    public InputHandler InputHandler;
     public AudioSource FlapSound;
     public AudioSource HitSound;
     public AudioSource FallSound;
@@ -24,14 +26,12 @@ public class Player : MonoBehaviour {
         }
     }
     // Private
-    private InputHandler _inputHandler;
     private Rigidbody2D _rigidbody;
     private Animator _animator;
     private int _score;
 
     public void Start()
     {
-        _inputHandler = InputHandler.GetComponent<InputHandler>();
         _rigidbody = GetComponent<Rigidbody2D>();
         _animator = GetComponent<Animator>();
     }
@@ -39,7 +39,7 @@ public class Player : MonoBehaviour {
 	// Update is called once per frame
 	void Update ()
 	{
-		if (_inputHandler.SingleTouch.Began)
+        if (InputHandler.SingleTouch.Began)
 		{
             Tap();
 		}
@@ -80,6 +80,9 @@ public class Player : MonoBehaviour {
         HitSound.Play();
         FallSound.Play();
         _animator.SetBool("Hit", true);
+
+        InputHandler.DisableControls = true;
+        MenuManager.ShowMenu(Endscreen);
     }
 
     private void UpdateAnimation()

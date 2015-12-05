@@ -9,7 +9,6 @@ public class LogicHandler : MonoBehaviour {
     public GameObject Tutorial;
 
     private bool _start;
-    private bool _end;
 
 	// Use this for initialization
 	void Start () {
@@ -20,7 +19,7 @@ public class LogicHandler : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 
-        if (_end)
+        if (Player.GetComponent<Player>().IsDead)
         {
             EndGame();
             return;
@@ -37,13 +36,6 @@ public class LogicHandler : MonoBehaviour {
                 _start = false;
             }
 
-            return;
-        }
-
-        if (Player.GetComponent<Player>().IsDead)
-        {
-            InputHandler.GetComponent<InputHandler>().DisableControls = true;
-            _end = true;
             return;
         }
 	}

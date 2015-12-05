@@ -18,7 +18,7 @@ public class ScrollingBackground : MonoBehaviour {
 	}
 
 	// Update is called once per frame
-	void Update () {
+	void FixedUpdate () {
 		var rightEdge = _backgroundList[0].GetComponent<Collider2D>().bounds.center.x + _backgroundList[0].GetComponent<Collider2D>().bounds.extents.x;
 		var leftCamEdge = _cam.ScreenToWorldPoint(new Vector2(0, 0)).x;
 
