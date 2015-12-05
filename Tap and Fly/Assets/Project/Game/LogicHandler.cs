@@ -6,7 +6,6 @@ public class LogicHandler : MonoBehaviour {
     public GameObject GroundCollider;
     public GameObject InputHandler;
     public GameObject Player;
-
     public GameObject Tutorial;
 
     private bool _start;

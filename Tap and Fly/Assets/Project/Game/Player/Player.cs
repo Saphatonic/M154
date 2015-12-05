@@ -7,16 +7,27 @@ public class Player : MonoBehaviour {
     public AudioSource FlapSound;
     public AudioSource HitSound;
     public AudioSource FallSound;
+    public AudioSource ScoreSound;
     // Set
     public float TapForce;
 	public float Speed;
     // Get
     [HideInInspector]
     public bool IsDead;
+    public int Score
+    {
+        get { return _score; }
+        set
+        {
+            _score = value;
+            ScoreSound.Play();
+        }
+    }
     // Private
     private InputHandler _inputHandler;
     private Rigidbody2D _rigidbody;
     private Animator _animator;
+    private int _score;
 
     public void Start()
     {
