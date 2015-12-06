@@ -28,11 +28,14 @@ public class SaveData : MonoBehaviour {
             FileStream file = File.Open(_filePath, FileMode.Open, FileAccess.Read);
             PlayerData =(PlayerData) bf.Deserialize(file);
 
+            AudioListener.volume = PlayerData.MasterVolume;
+
             file.Close();
         }
         else
         {
             PlayerData = new PlayerData();
+            PlayerData.MasterVolume = 1;
         }
     }
 

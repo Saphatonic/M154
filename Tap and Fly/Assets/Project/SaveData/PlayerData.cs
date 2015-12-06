@@ -5,4 +5,5 @@ using System;
 public class PlayerData  {
     public int Highscore;
     public int Coins;
+    public float MasterVolume;
 }
