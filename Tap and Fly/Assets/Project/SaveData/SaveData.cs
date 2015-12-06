@@ -36,6 +36,7 @@ public class SaveData : MonoBehaviour {
         {
             PlayerData = new PlayerData();
             PlayerData.MasterVolume = 1;
+            PlayerData.MusicVolume = 1;
         }
     }
 

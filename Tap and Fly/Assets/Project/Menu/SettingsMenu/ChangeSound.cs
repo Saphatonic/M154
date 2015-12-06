@@ -14,5 +14,6 @@ public class ChangeSound : MonoBehaviour {
     {
         AudioListener.volume = value;
         SaveData.Instance.PlayerData.MasterVolume = value;
+        SaveData.Instance.Save();
     }
 }
