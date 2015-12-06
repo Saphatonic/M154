@@ -18,7 +18,6 @@ public class LogicHandler : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-
         if (Player.GetComponent<Player>().IsDead)
         {
             EndGame();
@@ -29,11 +28,7 @@ public class LogicHandler : MonoBehaviour {
         {
             if (InputHandler.GetComponent<InputHandler>().SingleTouch.Began)
             {
-                ContinueGame();
-
-                Tutorial.GetComponent<SpriteRenderer>().enabled = false;
-                Player.GetComponent<Player>().Tap();
-                _start = false;
+                StartGame();
             }
 
             return;
@@ -43,14 +38,23 @@ public class LogicHandler : MonoBehaviour {
 
     public void ContinueGame()
     {
+        Player.GetComponent<Rigidbody2D>().isKinematic = false;
         Player.GetComponent<Player>().enabled = true;
-        Player.GetComponent<Rigidbody2D>().WakeUp();
     }
 
     public void PauseGame()
     {
+        Player.GetComponent<Rigidbody2D>().isKinematic = true;
         Player.GetComponent<Player>().enabled = false;
-        Player.GetComponent<Rigidbody2D>().Sleep();
+    }
+
+    private void StartGame()
+    {
+        ContinueGame();
+
+        Destroy(Tutorial);
+        Player.GetComponent<Player>().Tap();
+        _start = false;
     }
 
     private void EndGame()

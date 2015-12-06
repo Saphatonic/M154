@@ -12,12 +12,17 @@ public class MenuManager : MonoBehaviour {
 
     public void ShowMenu(Menu menu)
     {
+        if (menu == null)
+        {
+            return;
+        }
+
         if (CurrentMenu != null)
         {
             CurrentMenu.Active = false;
         }
 
         CurrentMenu = menu;
-        CurrentMenu.Active = true;
+        CurrentMenu.Active = true;        
     }
 }

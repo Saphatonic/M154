@@ -8,6 +8,7 @@ public class Spawn : MonoBehaviour {
     public Camera Cam;
     public List<GameObject> SpawnObjects;
     public float Distance;
+    public int CoinPercentage;
 
     private List<GameObject> _spawnedObjects;
 
@@ -24,8 +25,10 @@ public class Spawn : MonoBehaviour {
             InstantiateSpawnObject(_spawnedObjects.Last());
         }
 
-        foreach (var spawn in _spawnedObjects)
+        for (int i = 0; i < _spawnedObjects.Count;i++)
         {
+            var spawn = _spawnedObjects[i];
+
             if (GetCenter(spawn) + GetExtent(spawn) < LeftCamEdge())
             {
                 _spawnedObjects.Remove(spawn);
@@ -36,11 +39,12 @@ public class Spawn : MonoBehaviour {
 
     private void InstantiateSpawnObject(GameObject last)
     {
-        // Random obstacle
-        GameObject spawn = SpawnObjects[Random.Range(0, SpawnObjects.Count)];
+        // Spawn Obstacle
+        GameObject spawn = SpawnObjects[Random.Range(0, SpawnObjects.Count)];        
 
         //Calculate y position
-        float height = spawn.GetComponent<Height>().AvailableHeights[Random.Range(0, spawn.GetComponent<Height>().AvailableHeights.Length)];
+        var availableHeights = spawn.GetComponent<Obstacle>().AvailableHeights;
+        float height = availableHeights[Random.Range(0, availableHeights.Length)];
         float yPos = Cam.ScreenToWorldPoint(new Vector2(0, Screen.height * height)).y;
 
         //Instantiate
@@ -61,6 +65,13 @@ public class Spawn : MonoBehaviour {
         spawningObject.transform.position = position;
 
         _spawnedObjects.Add(spawningObject);
+
+        // Random obstacle
+        int typeNumber = Random.Range(1, 101);
+        if (typeNumber > CoinPercentage)
+        {
+            spawningObject.GetComponent<Obstacle>().CoinsSetActive(false);
+        }
     }
 
     private float RightCamEdge()

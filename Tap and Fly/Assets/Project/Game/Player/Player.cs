@@ -10,11 +10,11 @@ public class Player : MonoBehaviour {
     public AudioSource HitSound;
     public AudioSource FallSound;
     public AudioSource ScoreSound;
+    public AudioSource CoinSound;
     // Set
     public float TapForce;
 	public float Speed;
     // Get
-    [HideInInspector]
     public bool IsDead;
     public int Score
     {
@@ -25,10 +25,20 @@ public class Player : MonoBehaviour {
             ScoreSound.Play();
         }
     }
+    public int Coins
+    {
+        get { return _coins; }
+        set
+        {
+            _coins = value;
+            CoinSound.Play();
+        }
+    }
     // Private
     private Rigidbody2D _rigidbody;
     private Animator _animator;
     private int _score;
+    private int _coins;
 
     public void Start()
     {
@@ -75,7 +85,7 @@ public class Player : MonoBehaviour {
     public void Die()
     {
 		IsDead = true;
-		_rigidbody.Sleep();
+		_rigidbody.isKinematic = true;
         // Sounda and Animation 
         HitSound.Play();
         FallSound.Play();
@@ -87,7 +97,7 @@ public class Player : MonoBehaviour {
 
     private void UpdateAnimation()
     {
-        if (_rigidbody.velocity.y >= 0)
+        if (_rigidbody.velocity.y > 0)
         {
             _animator.SetBool("Flap", true);
         }

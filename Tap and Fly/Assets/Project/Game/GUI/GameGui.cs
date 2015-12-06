@@ -4,12 +4,12 @@ using System.Collections;
 
 public class GameGui : MonoBehaviour {
 
-    public GameObject Player;
+    public Player Player;
     public Text ScoreText;
     public Text EndScreenText;
 	
 	// Update is called once per frame
 	void Update () {
-        ScoreText.text = EndScreenText.text = Player.GetComponent<Player>().Score.ToString();
+        ScoreText.text = EndScreenText.text = Player.Score.ToString();
 	}
 }

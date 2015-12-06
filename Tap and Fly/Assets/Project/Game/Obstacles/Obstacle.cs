@@ -1,12 +1,23 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class ScoreCollider : MonoBehaviour {
+public class Obstacle : MonoBehaviour {
+
+    public float[] AvailableHeights;
+    public GameObject[] Coins;
 
     private bool _active;
 
     public void Start(){
         _active = true;
+    }
+
+    public void CoinsSetActive(bool value)
+    {
+        foreach (var coin in Coins)
+        {
+            coin.SetActive(value);
+        }
     }
 
     public void OnTriggerExit2D(Collider2D other)
