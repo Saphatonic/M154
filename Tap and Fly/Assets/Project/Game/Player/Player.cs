@@ -44,6 +44,8 @@ public class Player : MonoBehaviour {
     {
         _rigidbody = GetComponent<Rigidbody2D>();
         _animator = GetComponent<Animator>();
+
+        _coins = SaveData.Instance.PlayerData.Coins;
     }
 
 	// Update is called once per frame

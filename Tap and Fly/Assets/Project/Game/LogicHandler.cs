@@ -8,11 +8,11 @@ public class LogicHandler : MonoBehaviour {
     public GameObject Player;
     public GameObject Tutorial;
 
-    private bool _start;
+    public bool IsStart;
 
 	// Use this for initialization
 	void Start () {
-        _start = true;
+        IsStart = true;
         PauseGame();
 	}
 	
@@ -24,7 +24,7 @@ public class LogicHandler : MonoBehaviour {
             return;
         }
 
-        if (_start)
+        if (IsStart)
         {
             if (InputHandler.GetComponent<InputHandler>().SingleTouch.Began)
             {
@@ -40,12 +40,14 @@ public class LogicHandler : MonoBehaviour {
     {
         Player.GetComponent<Rigidbody2D>().isKinematic = false;
         Player.GetComponent<Player>().enabled = true;
+        Player.GetComponent<Animator>().enabled = true;
     }
 
     public void PauseGame()
     {
         Player.GetComponent<Rigidbody2D>().isKinematic = true;
         Player.GetComponent<Player>().enabled = false;
+        Player.GetComponent<Animator>().enabled = false;
     }
 
     private void StartGame()
@@ -54,7 +56,7 @@ public class LogicHandler : MonoBehaviour {
 
         Destroy(Tutorial);
         Player.GetComponent<Player>().Tap();
-        _start = false;
+        IsStart = false;
     }
 
     private void EndGame()
