@@ -1,16 +1,20 @@
 ﻿using UnityEngine;
+using UnityEditor.Animations;
 using System;
 using System.Collections;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 
 public class SaveData : MonoBehaviour {
-
-    private string _filePath;
-
+    
     [HideInInspector]
     public static SaveData Instance { get; private set; }
+	// Instance
     public PlayerData PlayerData;
+	//	Shop 
+	public AvailablePlayer[] AvailablePlayers;
+
+	private string _filePath;
 
 	void Awake () {
         DontDestroyOnLoad(this);
@@ -35,8 +39,6 @@ public class SaveData : MonoBehaviour {
         else
         {
             PlayerData = new PlayerData();
-            PlayerData.MasterVolume = 1;
-            PlayerData.MusicVolume = 1;
         }
     }
 
@@ -48,4 +50,11 @@ public class SaveData : MonoBehaviour {
         bf.Serialize(file, PlayerData);
         file.Close();
     }
+}
+
+[Serializable]
+public class AvailablePlayer
+{
+	public AnimatorController Animator;
+	public Sprite Sprite;
 }
