@@ -46,8 +46,6 @@ public class Player : MonoBehaviour {
         _rigidbody = GetComponent<Rigidbody2D>();
         _animator = GetComponent<Animator>();
 
-		SaveData.Instance.PlayerData.AvatarId = 1;
-
 		_animator.runtimeAnimatorController = SaveData.Instance.AvailablePlayers[SaveData.Instance.PlayerData.AvatarId].Animator;
 		AvatarSprite.GetComponent<SpriteRenderer>().sprite = SaveData.Instance.AvailablePlayers[SaveData.Instance.PlayerData.AvatarId].Sprite;
 

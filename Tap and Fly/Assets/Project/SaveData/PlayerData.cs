@@ -7,7 +7,7 @@ public class PlayerData  {
     public int Coins;
     public float MasterVolume;
     public float MusicVolume;
-	public int AvatarId; 
+	public int PlayerId; 
 
 	public PlayerData()
 	{
@@ -15,6 +15,6 @@ public class PlayerData  {
 		Coins = 0;
 		MasterVolume = 1;
 		MusicVolume = 1;
-		AvatarId = 0;
+		PlayerId = 0;
 	}
 }
