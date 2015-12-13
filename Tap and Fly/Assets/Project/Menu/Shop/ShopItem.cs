@@ -18,7 +18,7 @@ public class ShopItem : MonoBehaviour {
         if (SaveData.Instance.PlayerData.Coins >= price)
         {
             SaveData.Instance.PlayerData.Coins -= price;
-            SaveData.Instance.AvailablePlayers[Id].Owned = true;
+            SaveData.Instance.PlayerData.OwnedSkins.Add(Id);
             SaveData.Instance.PlayerData.PlayerId = Id;
             LockedImage.enabled = false;
 
@@ -28,7 +28,7 @@ public class ShopItem : MonoBehaviour {
 
     public void Choose()
     {
-        if (SaveData.Instance.AvailablePlayers[Id].Owned == true)
+        if (SaveData.Instance.PlayerData.OwnedSkins.Contains(Id))
         {
             SaveData.Instance.PlayerData.PlayerId = Id;
             SaveData.Instance.Save();

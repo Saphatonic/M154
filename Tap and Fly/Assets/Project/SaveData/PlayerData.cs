@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System;
+using System.Collections.Generic;
 
 [Serializable]
 public class PlayerData  {
@@ -7,7 +8,8 @@ public class PlayerData  {
     public int Coins;
     public float MasterVolume;
     public float MusicVolume;
-	public int PlayerId; 
+	public int PlayerId;
+    public List<int> OwnedSkins;
 
 	public PlayerData()
 	{
@@ -16,5 +18,7 @@ public class PlayerData  {
 		MasterVolume = 1;
 		MusicVolume = 1;
 		PlayerId = 0;
+        OwnedSkins = new List<int>();
+        OwnedSkins.Add(PlayerId);
 	}
 }

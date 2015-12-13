@@ -16,11 +16,11 @@ public class SaveData : MonoBehaviour {
 	public List<AvailablePlayer> AvailablePlayers;
 
 	private string _filePath;
-    private const string _version = "0.1";
+    private const float _version = 0.43f;
 
 	void Awake () {
         DontDestroyOnLoad(this);
-        _filePath = Application.persistentDataPath + "/savedata_v" + _version + ".dat";
+        _filePath = Application.persistentDataPath + "/savedata.dat";
         Load();
 
         Instance = this;
@@ -28,15 +28,11 @@ public class SaveData : MonoBehaviour {
 
     private void Load()
     {
-        if (File.Exists(_filePath))
+        if (File.Exists(_filePath) && PlayerPrefs.GetFloat("Version") == _version)
         {
             BinaryFormatter bf = new BinaryFormatter();
             FileStream file = File.Open(_filePath, FileMode.Open, FileAccess.Read);
-            SerializableClass serializedObject = (SerializableClass)bf.Deserialize(file);
-
-            PlayerData = serializedObject.PlayerData;
-            AvailablePlayers = serializedObject.AvailablePlayers;
-
+            PlayerData = (PlayerData)bf.Deserialize(file);
             file.Close();
 
             //Setting MasterVolume
@@ -44,6 +40,7 @@ public class SaveData : MonoBehaviour {
         }
         else
         {
+            File.Delete(_filePath);
             PlayerData = new PlayerData();
         }
     }
@@ -52,11 +49,11 @@ public class SaveData : MonoBehaviour {
     {
         BinaryFormatter bf = new BinaryFormatter();
         FileStream file = File.Open(_filePath, FileMode.OpenOrCreate, FileAccess.Write);
-
-        var serializableObject = new SerializableClass { AvailablePlayers = AvailablePlayers, PlayerData = PlayerData };
-
-        bf.Serialize(file, serializableObject);
+        bf.Serialize(file, PlayerData);
         file.Close();
+
+        //PlayerPrefs
+        PlayerPrefs.SetFloat("Version", _version);
     }
 }
 
@@ -67,12 +64,4 @@ public class AvailablePlayer
 	public Sprite Sprite;
     public string Name;
     public int Price;
-    public bool Owned;
-}
-
-[Serializable]
-public class SerializableClass
-{
-    public PlayerData PlayerData;
-    public List<AvailablePlayer> AvailablePlayers;
 }
