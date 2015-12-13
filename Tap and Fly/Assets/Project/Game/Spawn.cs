@@ -9,6 +9,7 @@ public class Spawn : MonoBehaviour {
     public List<GameObject> SpawnObjects;
     public float Distance;
     public int CoinPercentage;
+    public Player Player;
 
     private List<GameObject> _spawnedObjects;
 
@@ -39,8 +40,9 @@ public class Spawn : MonoBehaviour {
 
     private void InstantiateSpawnObject(GameObject last)
     {
+        var avaialbleSpawnObjects = SpawnObjects.Where(x => Player.Score >= x.GetComponent<Obstacle>().MinimumScore).ToList();
         // Spawn Obstacle
-        GameObject spawn = SpawnObjects[Random.Range(0, SpawnObjects.Count)];        
+        GameObject spawn = avaialbleSpawnObjects[Random.Range(0, avaialbleSpawnObjects.Count)];        
 
         //Calculate y position
         var availableHeights = spawn.GetComponent<Obstacle>().AvailableHeights;

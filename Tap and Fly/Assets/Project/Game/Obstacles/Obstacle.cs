@@ -5,6 +5,7 @@ public class Obstacle : MonoBehaviour {
 
     public float[] AvailableHeights;
     public GameObject[] Coins;
+    public int MinimumScore;
 
     private bool _active;
 
