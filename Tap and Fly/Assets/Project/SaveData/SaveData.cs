@@ -1,8 +1,9 @@
 ﻿using UnityEngine;
 using UnityEditor.Animations;
 using System;
-using System.Collections;
 using System.IO;
+using System.Collections;
+using System.Collections.Generic;
 using System.Runtime.Serialization.Formatters.Binary;
 
 public class SaveData : MonoBehaviour {
@@ -12,13 +13,14 @@ public class SaveData : MonoBehaviour {
 	// Instance
     public PlayerData PlayerData;
 	//	Shop 
-	public AvailablePlayer[] AvailablePlayers;
+	public List<AvailablePlayer> AvailablePlayers;
 
 	private string _filePath;
+    private const string _version = "0.1";
 
 	void Awake () {
         DontDestroyOnLoad(this);
-        _filePath = Application.persistentDataPath + "/savedata.dat";
+        _filePath = Application.persistentDataPath + "/savedata_v" + _version + ".dat";
         Load();
 
         Instance = this;
@@ -30,11 +32,15 @@ public class SaveData : MonoBehaviour {
         {
             BinaryFormatter bf = new BinaryFormatter();
             FileStream file = File.Open(_filePath, FileMode.Open, FileAccess.Read);
-            PlayerData =(PlayerData) bf.Deserialize(file);
+            SerializableClass serializedObject = (SerializableClass)bf.Deserialize(file);
 
-            AudioListener.volume = PlayerData.MasterVolume;
+            PlayerData = serializedObject.PlayerData;
+            AvailablePlayers = serializedObject.AvailablePlayers;
 
             file.Close();
+
+            //Setting MasterVolume
+            AudioListener.volume = PlayerData.MasterVolume;
         }
         else
         {
@@ -47,7 +53,9 @@ public class SaveData : MonoBehaviour {
         BinaryFormatter bf = new BinaryFormatter();
         FileStream file = File.Open(_filePath, FileMode.OpenOrCreate, FileAccess.Write);
 
-        bf.Serialize(file, PlayerData);
+        var serializableObject = new SerializableClass { AvailablePlayers = AvailablePlayers, PlayerData = PlayerData };
+
+        bf.Serialize(file, serializableObject);
         file.Close();
     }
 }
@@ -57,4 +65,14 @@ public class AvailablePlayer
 {
 	public AnimatorController Animator;
 	public Sprite Sprite;
+    public string Name;
+    public int Price;
+    public bool Owned;
+}
+
+[Serializable]
+public class SerializableClass
+{
+    public PlayerData PlayerData;
+    public List<AvailablePlayer> AvailablePlayers;
 }
