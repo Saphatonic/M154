@@ -57,7 +57,7 @@ public class Spawn : MonoBehaviour {
         }
         else 
         {
-            position = new Vector3(GetCenter(last) + Distance, yPos, spawn.transform.position.z);
+            position = new Vector3(GetRightEdge(last) + Distance, yPos, spawn.transform.position.z);
         }
         Quaternion rotation = spawn.transform.rotation;
         var spawningObject = Instantiate(spawn, position, rotation) as GameObject;
@@ -68,7 +68,7 @@ public class Spawn : MonoBehaviour {
 
         _spawnedObjects.Add(spawningObject);
 
-        // Random obstacle
+        // Enable or disable coins
         int typeNumber = Random.Range(1, 101);
         if (typeNumber > CoinPercentage)
         {
@@ -90,6 +90,12 @@ public class Spawn : MonoBehaviour {
     {
         return gameObject.GetComponent<BoxCollider2D>().bounds.center.x;
     }
+
+	private float GetRightEdge(GameObject gameObject)
+	{
+		return gameObject.GetComponent<BoxCollider2D>().bounds.center.x +
+			gameObject.GetComponent<BoxCollider2D>().bounds.extents.x;
+	}
 
     private float GetExtent(GameObject gameObject)
     {
