@@ -4,7 +4,6 @@ using System.Collections;
 
 public class SingleTouch
 {
-
     public bool Began;
     public bool Moved;
     public bool Stationary;
