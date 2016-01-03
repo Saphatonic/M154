@@ -10,14 +10,23 @@ public class MovingPipe : MonoBehaviour {
     private Vector3 _startingPoint;
     private int _direction;
 
+    private LogicHandler _logic;
+
     void Start()
     {
         var ran = Random.Range(0, 2);
         _direction = ran == 0 ? 1 : -1;
         _startingPoint = transform.position;
+
+        _logic = GameObject.FindGameObjectWithTag("LogicHandler").GetComponent<LogicHandler>();
     }
 
 	void Update () {
+
+        if (_logic.Paused)
+        {
+            return;
+        }
 
         float distanceToMove = Time.deltaTime * MovingDistance * _direction;
         float position = Direction == Direction.Vertical ? transform.position.y : transform.position.x;
