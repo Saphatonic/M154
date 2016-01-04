@@ -43,11 +43,11 @@ public class Player : MonoBehaviour {
 
     public void Start()
     {
+        GetComponent<Animator>().runtimeAnimatorController = Resources.Load(SaveData.Instance.AvailablePlayers[SaveData.Instance.PlayerData.PlayerId].Animator) as RuntimeAnimatorController;
+        AvatarSprite.GetComponent<SpriteRenderer>().sprite = SaveData.Instance.AvailablePlayers[SaveData.Instance.PlayerData.PlayerId].Sprite;
+
         _rigidbody = GetComponent<Rigidbody2D>();
         _animator = GetComponent<Animator>();
-
-		_animator.runtimeAnimatorController = SaveData.Instance.AvailablePlayers[SaveData.Instance.PlayerData.PlayerId].Animator;
-        AvatarSprite.GetComponent<SpriteRenderer>().sprite = SaveData.Instance.AvailablePlayers[SaveData.Instance.PlayerData.PlayerId].Sprite;
 
         _coins = SaveData.Instance.PlayerData.Coins;
     }

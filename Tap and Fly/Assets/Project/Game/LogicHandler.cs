@@ -11,6 +11,8 @@ public class LogicHandler : MonoBehaviour {
     public bool IsStart;
     public bool Paused;
 
+    private float _tempAcc;
+
 	// Use this for initialization
 	void Start () {
         IsStart = true;
@@ -40,6 +42,7 @@ public class LogicHandler : MonoBehaviour {
     public void ContinueGame()
     {
         Player.GetComponent<Rigidbody2D>().isKinematic = false;
+        Player.GetComponent<Rigidbody2D>().velocity = new Vector2(0, _tempAcc);
         Player.GetComponent<Player>().enabled = true;
         Player.GetComponent<Animator>().enabled = true;
 
@@ -48,6 +51,7 @@ public class LogicHandler : MonoBehaviour {
 
     public void PauseGame()
     {
+        _tempAcc = Player.GetComponent<Rigidbody2D>().velocity.y;
         Player.GetComponent<Rigidbody2D>().isKinematic = true;
         Player.GetComponent<Player>().enabled = false;
         Player.GetComponent<Animator>().enabled = false;

@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using UnityEditor.Animations;
 using System;
 using System.IO;
 using System.Collections;
@@ -60,7 +59,7 @@ public class SaveData : MonoBehaviour {
 [Serializable]
 public class AvailablePlayer
 {
-	public AnimatorController Animator;
+	public string Animator;
 	public Sprite Sprite;
     public string Name;
     public int Price;

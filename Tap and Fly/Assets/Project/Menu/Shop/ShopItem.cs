@@ -6,7 +6,8 @@ using System.Collections;
 public class ShopItem : MonoBehaviour {
 
     public Image Image;
-    public Image LockedImage; 
+    public Image Coin;
+    public Image LockedImage;
     public Image BackgroundImage;
     public Text PriceText;
     public Text NameText;
