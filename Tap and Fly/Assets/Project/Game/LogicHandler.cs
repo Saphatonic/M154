@@ -66,6 +66,6 @@ public class LogicHandler : MonoBehaviour {
 
     private void EndGame()
     {
-        PauseGame();
+		Paused = true;
     }
 }

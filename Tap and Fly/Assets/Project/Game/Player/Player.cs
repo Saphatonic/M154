@@ -90,7 +90,6 @@ public class Player : MonoBehaviour {
 
     public void Die()
     {
-		IsDead = true;
 		_rigidbody.isKinematic = true;
         // Sounda and Animation 
         HitSound.Play();
@@ -98,7 +97,8 @@ public class Player : MonoBehaviour {
         _animator.SetBool("Hit", true);
 
         InputHandler.DisableControls = true;
-        MenuManager.ShowMenu(Endscreen);
+		MenuManager.ShowMenu(Endscreen);
+		IsDead = true;
     }
 
     private void UpdateAnimation()
