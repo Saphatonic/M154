@@ -11,6 +11,12 @@ public class Spawn : MonoBehaviour {
     public int CoinPercentage;
     public Player Player;
 
+    public float MinHeight;
+    public float MaxHeight;
+    public float HeightStep;
+
+    private float _lastHeight;
+
     private List<GameObject> _spawnedObjects;
 
 	// Use this for initialization
@@ -45,8 +51,16 @@ public class Spawn : MonoBehaviour {
         GameObject spawn = avaialbleSpawnObjects[Random.Range(0, avaialbleSpawnObjects.Count)];        
 
         //Calculate y position
-        var availableHeights = spawn.GetComponent<Obstacle>().AvailableHeights;
-        float height = availableHeights[Random.Range(0, availableHeights.Length)];
+        float height;
+        if (_lastHeight == 0)
+        {
+            height = Random.Range(MinHeight, MaxHeight);
+        }
+        else
+        {
+            height = AddOrSubstractStepAtRandom(HeightStep, _lastHeight, MinHeight, MaxHeight);
+        }
+        _lastHeight = height;
         float yPos = Cam.ScreenToWorldPoint(new Vector2(0, Screen.height * height)).y;
 
         //Instantiate
@@ -73,6 +87,19 @@ public class Spawn : MonoBehaviour {
         if (typeNumber > CoinPercentage)
         {
             spawningObject.GetComponent<Obstacle>().CoinsSetActive(false);
+        }
+    }
+
+    private static float AddOrSubstractStepAtRandom(float step, float height, float min, float max)
+    {
+        float addSubRand = Random.Range(step, -step);
+        if (height + step < min || height + step > max)
+        {
+            return height - step;
+        }
+        else
+        {
+            return height + step;
         }
     }
 

@@ -22,6 +22,17 @@ public class ShopItem : MonoBehaviour {
             SaveData.Instance.PlayerData.OwnedSkins.Add(Id);
             SaveData.Instance.PlayerData.PlayerId = Id;
             LockedImage.enabled = false;
+            Coin.enabled = false;
+            PriceText.text = string.Empty;
+
+            if (Social.localUser.authenticated)
+            {
+                if (NameText.text == "Ricky")
+                {
+                    Social.ReportProgress(Resources.achievement_kraaah, 100.0f, (bool success) => { });
+                }
+
+            }
 
             SaveData.Instance.Save();
         }

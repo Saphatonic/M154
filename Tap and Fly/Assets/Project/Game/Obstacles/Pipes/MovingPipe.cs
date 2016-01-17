@@ -4,7 +4,7 @@ using System.Collections;
 public class MovingPipe : MonoBehaviour {
 
     public float MaxMovingDistance;
-    public float MovingDistance;
+    public float MovingSpeed;
     public Direction Direction;
 
     private Vector3 _startingPoint;
@@ -28,7 +28,7 @@ public class MovingPipe : MonoBehaviour {
             return;
         }
 
-        float distanceToMove = Time.deltaTime * MovingDistance * _direction;
+        float distanceToMove = Time.deltaTime * MovingSpeed * _direction;
         float position = Direction == Direction.Vertical ? transform.position.y : transform.position.x;
         float startingPosition = Direction == Direction.Vertical ? _startingPoint.y : _startingPoint.x;
 

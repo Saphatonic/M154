@@ -7,6 +7,8 @@ public class ScrollingBackground : MonoBehaviour {
 
 	private Camera _cam;
 	private GameObject[] _backgroundList;
+    private float _leftCamEdge;
+    private float _rightEdge;
 
 	void Start()
 	{
@@ -14,22 +16,25 @@ public class ScrollingBackground : MonoBehaviour {
 		_backgroundList = new GameObject[2];
 		_backgroundList[0] = BackgroundPreset;
 		_backgroundList[1] = InstantiateBackground(_backgroundList[0]);
-
+        GetEdge();
 	}
 
-	// Update is called once per frame
 	void FixedUpdate () {
-		var rightEdge = _backgroundList[0].GetComponent<Collider2D>().bounds.center.x + _backgroundList[0].GetComponent<Collider2D>().bounds.extents.x;
-		var leftCamEdge = _cam.ScreenToWorldPoint(new Vector2(0, 0)).x;
+        var _leftCamEdge = _cam.ScreenToWorldPoint(new Vector2(0, 0)).x;
 
-		if(rightEdge < leftCamEdge)
+        if (_rightEdge < _leftCamEdge)
 		{
-			Destroy(_backgroundList[0]);
-			
+			Destroy(_backgroundList[0]);			
 			_backgroundList[0] = _backgroundList[1];
 			_backgroundList[1] = InstantiateBackground(_backgroundList[0]);
+            GetEdge();
 		}
 	}
+
+    private void GetEdge()
+    {
+        _rightEdge = _backgroundList[0].GetComponent<Collider2D>().bounds.center.x + _backgroundList[0].GetComponent<Collider2D>().bounds.extents.x;
+    }
 
 	private GameObject InstantiateBackground(GameObject firstBackground)
 	{		

@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using GooglePlayGames;
+using UnityEngine;
+using UnityEngine.SocialPlatforms;
 using System.Collections;
 
 public class Player : MonoBehaviour {
@@ -43,7 +45,7 @@ public class Player : MonoBehaviour {
 
     public void Start()
     {
-        GetComponent<Animator>().runtimeAnimatorController = Resources.Load(SaveData.Instance.AvailablePlayers[SaveData.Instance.PlayerData.PlayerId].Animator) as RuntimeAnimatorController;
+        GetComponent<Animator>().runtimeAnimatorController = UnityEngine.Resources.Load(SaveData.Instance.AvailablePlayers[SaveData.Instance.PlayerData.PlayerId].Animator) as RuntimeAnimatorController;
         AvatarSprite.GetComponent<SpriteRenderer>().sprite = SaveData.Instance.AvailablePlayers[SaveData.Instance.PlayerData.PlayerId].Sprite;
 
         _rigidbody = GetComponent<Rigidbody2D>();
@@ -60,6 +62,8 @@ public class Player : MonoBehaviour {
             Tap();
 		}
 
+        CheckAchievements();
+
         UpdateAnimation();
     }
 
@@ -67,7 +71,7 @@ public class Player : MonoBehaviour {
 	void FixedUpdate()
     {
         if (!IsDead)
-		{	
+        {
 			// Rotate
 			_rigidbody.MoveRotation(_rigidbody.velocity.y * 6);
 			// Reset Force y
@@ -90,6 +94,13 @@ public class Player : MonoBehaviour {
 
     public void Die()
     {
+        if (Social.localUser.authenticated)
+        {
+            Social.ReportProgress(Resources.achievement_ouch_that_hurts, 100.0f, null);
+
+            Social.ReportScore(Score, Resources.leaderboard_leaderboard, null);
+        }
+
 		IsDead = true;
 		_rigidbody.isKinematic = true;
         // Sounda and Animation 
@@ -110,6 +121,32 @@ public class Player : MonoBehaviour {
         else
         {
             _animator.SetBool("Flap", false);
+        }
+    }
+
+    private void CheckAchievements()
+    {
+        if (Social.localUser.authenticated)
+        {
+            if (_coins >= 20000)
+            {
+                Social.ReportProgress(Resources.achievement_im_rich_bitch, 100.0f, (bool success) => { });
+            }
+
+            if (_score >= 10)
+            {
+                Social.ReportProgress(Resources.achievement_10__points, 100.0f, (bool success) => { });
+            }
+
+            if (_score >= 50)
+            {
+                Social.ReportProgress(Resources.achievement_50__points, 100.0f, (bool success) => { });
+            }
+
+            if (_score >= 100)
+            {
+                Social.ReportProgress(Resources.achievement_100__points, 100.0f, (bool success) => { });
+            }
         }
     }
 }

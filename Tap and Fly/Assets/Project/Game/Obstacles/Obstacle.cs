@@ -3,9 +3,9 @@ using System.Collections;
 
 public class Obstacle : MonoBehaviour {
 
-    public float[] AvailableHeights;
     public GameObject[] Coins;
     public int MinimumScore;
+    public int points;
 
     private bool _active;
 
@@ -25,7 +25,7 @@ public class Obstacle : MonoBehaviour {
     {
         if (other.tag == "Player" && _active)
         {
-            other.GetComponent<Player>().Score++;
+            other.GetComponent<Player>().Score += points;
             _active = false;
         }
     }

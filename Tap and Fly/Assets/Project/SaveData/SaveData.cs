@@ -15,33 +15,52 @@ public class SaveData : MonoBehaviour {
 	public List<AvailablePlayer> AvailablePlayers;
 
 	private string _filePath;
-    private const float _version = 0.43f;
+    private const float _version = 0.44f;
+    private const float old_version_1 = 0.43f;
 
 	void Awake () {
-        DontDestroyOnLoad(this);
-        _filePath = Application.persistentDataPath + "/savedata.dat";
-        Load();
+        if (Instance == null)
+        {
+            DontDestroyOnLoad(this);
+            _filePath = Application.persistentDataPath + "/savedata.dat";
+            Load();
 
-        Instance = this;
+            Instance = this;
+        }
+
+        if (Instance != this)
+        {
+            Destroy(this);
+        }
 	}
 
     private void Load()
     {
         if (File.Exists(_filePath) && PlayerPrefs.GetFloat("Version") == _version)
         {
-            BinaryFormatter bf = new BinaryFormatter();
-            FileStream file = File.Open(_filePath, FileMode.Open, FileAccess.Read);
-            PlayerData = (PlayerData)bf.Deserialize(file);
-            file.Close();
-
-            //Setting MasterVolume
-            AudioListener.volume = PlayerData.MasterVolume;
+            Deserialize();
+        }
+        else if (PlayerPrefs.GetFloat("Version") == old_version_1)
+        {
+            Deserialize();
+            PlayerData.Highscore = 0;
         }
         else
         {
             File.Delete(_filePath);
             PlayerData = new PlayerData();
         }
+    }
+
+    private void Deserialize()
+    {
+        BinaryFormatter bf = new BinaryFormatter();
+        FileStream file = File.Open(_filePath, FileMode.Open, FileAccess.Read);
+        PlayerData = (PlayerData)bf.Deserialize(file);
+        file.Close();
+
+        //Setting MasterVolume
+        AudioListener.volume = PlayerData.MasterVolume;
     }
 
     public void Save()

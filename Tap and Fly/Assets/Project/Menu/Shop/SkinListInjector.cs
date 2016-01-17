@@ -27,8 +27,8 @@ public class SkinListInjector : MonoBehaviour {
             if (SaveData.Instance.PlayerData.OwnedSkins.Contains(SaveData.Instance.AvailablePlayers.IndexOf(player)))
             {
                 shopItem.LockedImage.enabled = false;
-                shopItem.PriceText.text = "";
                 shopItem.Coin.enabled = false;
+                shopItem.PriceText.text = string.Empty;
             }
 
             gameObject.transform.SetParent(transform, false);
